@@ -1,0 +1,29 @@
+<App>
+ 	<JavaScript>
+     var Observable = require('FuseJS/Observable');
+     var result = new Observable();
+     result.value = 'test'
+     window.crypto = {};
+     window.crypto.getRandomValues = require('cryptopoly');
+
+
+     function encrypt(){
+        var wrappers = require('libsodium-wrappers');
+        var publicKey = 'ROTdAnYLeTFkxMSnEuV1aVw88rnoqxadWixz1xHqtRg=';
+        var cipher = wrappers.crypto_box_seal('test message',wrappers.from_base64(publicKey),'base64');
+        result.value = cipher;
+     }
+
+     module.exports = {
+       result : result,
+       encrypt : encrypt
+     }
+  </JavaScript>
+  <ClientPanel>
+ 		<StackPanel>
+ 			<Text FontSize="32">Result</Text>
+ 			<Text Value="{result}"/>
+    <Basic.Button Text="Encrypt" Clicked="{encrypt}" />
+ 		</StackPanel>
+ 	</ClientPanel>
+</App>
